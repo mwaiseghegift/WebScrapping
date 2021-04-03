@@ -8,9 +8,14 @@ soup = BeautifulSoup(html_text, 'lxml')
 
 movies = soup.find_all('div', class_='lister-item mode-advanced')
 
-for movie in movies:
+for index, movie in enumerate(movies):
     movie_object = movie.find('h3').text
     movie_description = movie.find_all('p', class_='text-muted')[1].text.replace("  ","")
-    print(f"{movie_object}")
-    print(f"{movie_description}")
-    print("")
+    movie_link = movie.h3.a['href']
+    
+    with open(f'output.txt', 'a') as f:
+        f.write(f"{movie_object.strip()}\n")
+        f.write(f"{movie_description.strip()}\n")
+        f.write(f"https://www.imdb.com{movie_link}\n")
+        f.write(f"\n\n")
+    print("file saved")
